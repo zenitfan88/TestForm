@@ -1,20 +1,20 @@
 package ru.netology.test;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 import static ru.netology.data.DataGenerator.User.*;
-
+import static ru.netology.data.DataGenerator.User.generatePassword;
 
 public class TestMode {
-
     @BeforeEach
-    void setUp() {
+    void setUpAll() {
         open("http://localhost:9999");
     }
 
@@ -54,4 +54,3 @@ public class TestMode {
         $("[data-test-id='error-notification']").shouldHave(text("Неверно указан логин или пароль"));
     }
 }
-
