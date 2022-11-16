@@ -1,23 +1,20 @@
 package ru.netology.data;
 
 import com.github.javafaker.Faker;
-import com.google.gson.Gson;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import lombok.Data;
+
 import lombok.Value;
 
 import static io.restassured.RestAssured.given;
 
-import lombok.RequiredArgsConstructor;
-
-
-@Data
 
 public class DataGenerator {
     private static final Faker faker = new Faker();
+
+    private static String status;
     private static final String username = faker.name().username();
     private static final String password = faker.internet().password();
 
@@ -30,25 +27,15 @@ public class DataGenerator {
                 .log(LogDetail.ALL)
                 .build();
 
-        public static void activeRegistrationUser() {
+        public static void registrationUser(String status) {
             given()
                     .spec(requestSpec)
-                    .body(new TestUser(username, password, "active"))
+                    .body(new TestUser(username, password, status))
                     .when()
                     .post("/api/system/users")
                     .then()
                     .statusCode(200);
 
-        }
-
-        public static void blockedRegistrationUser() {
-            given()
-                    .spec(requestSpec)
-                    .body(new Gson().toJson(new TestUser(username, password, "blocked")))
-                    .when()
-                    .post("/api/system/users")
-                    .then()
-                    .statusCode(200);
         }
 
         public static String getUserName() {
@@ -72,8 +59,6 @@ public class DataGenerator {
     }
 
     @Value
-    @Data
-    @RequiredArgsConstructor
     public static class TestUser {
         String login;
         String password;

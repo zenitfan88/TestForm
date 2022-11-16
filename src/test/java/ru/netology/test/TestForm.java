@@ -12,7 +12,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static ru.netology.data.DataGenerator.User.*;
 import static ru.netology.data.DataGenerator.User.generatePassword;
 
-public class TestMode {
+public class TestForm {
     @BeforeEach
     void setUpAll() {
         open("http://localhost:9999");
@@ -20,7 +20,7 @@ public class TestMode {
 
     @Test
     void loginСompletedTest() {
-        activeRegistrationUser();
+        registrationUser("active");
         $("[data-test-id='login'] input").val(getUserName());
         $("[data-test-id='password'] input").val(getPassword());
         $("[data-test-id='action-login']").click();
@@ -29,28 +29,31 @@ public class TestMode {
 
     @Test
     void loginBlockedTest() {
-        blockedRegistrationUser();
+        registrationUser("blocked");
         $("[data-test-id='login'] input").val(getUserName());
         $("[data-test-id='password'] input").val(getPassword());
         $("[data-test-id='action-login']").click();
-        $("[data-test-id='error-notification']").shouldHave(text("Пользователь заблокирован"));
+        $("[data-test-id='error-notification']").shouldHave(text("Пользователь заблокирован"))
+                .isDisplayed();
     }
 
     @Test
     void notTrueLoginTest() {
-        activeRegistrationUser();
+        registrationUser("active");
         $("[data-test-id='login'] input").val(generateUserName());
         $("[data-test-id='password'] input").val(getPassword());
         $("[data-test-id='action-login']").click();
-        $("[data-test-id='error-notification']").shouldHave(text("Неверно указан логин или пароль"));
+        $("[data-test-id='error-notification']").shouldHave(text("Неверно указан логин или пароль"))
+                .isDisplayed();
     }
 
     @Test
     void notTruePasswordTest() {
-        activeRegistrationUser();
+        registrationUser("active");
         $("[data-test-id='login'] input").val(getUserName());
         $("[data-test-id='password'] input").val(generatePassword());
         $("[data-test-id='action-login']").click();
-        $("[data-test-id='error-notification']").shouldHave(text("Неверно указан логин или пароль"));
+        $("[data-test-id='error-notification']").shouldHave(text("Неверно указан логин или пароль"))
+                .isDisplayed();
     }
 }
