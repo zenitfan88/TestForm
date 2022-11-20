@@ -34,7 +34,7 @@ public class TestForm {
         $("[data-test-id='password'] input").val(getPassword());
         $("[data-test-id='action-login']").click();
         $("[data-test-id='error-notification']").shouldHave(text("Пользователь заблокирован"))
-                .isDisplayed();
+                .shouldBe(visible, Duration.ofSeconds(5));
     }
 
     @Test
@@ -44,7 +44,7 @@ public class TestForm {
         $("[data-test-id='password'] input").val(getPassword());
         $("[data-test-id='action-login']").click();
         $("[data-test-id='error-notification']").shouldHave(text("Неверно указан логин или пароль"))
-                .isDisplayed();
+                .shouldBe(visible, Duration.ofSeconds(5));
     }
 
     @Test
@@ -54,6 +54,6 @@ public class TestForm {
         $("[data-test-id='password'] input").val(generatePassword());
         $("[data-test-id='action-login']").click();
         $("[data-test-id='error-notification']").shouldHave(text("Неверно указан логин или пароль"))
-                .isDisplayed();
+                .shouldBe(visible, Duration.ofSeconds(5));
     }
 }
